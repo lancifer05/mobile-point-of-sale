@@ -55,8 +55,8 @@ Container TextBox(String label, onChange) {
 }
 
 final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-  foregroundColor: Colors.black87, // Color for text
-  backgroundColor: Colors.yellow, // Color for button background
+  foregroundColor: const Color(0xFF0A1931), // Color for text
+  backgroundColor: const Color(0xFFFFC947), // Color for button background
   minimumSize: Size(88, 56),
   padding: EdgeInsets.symmetric(horizontal: 16),
   shape: const RoundedRectangleBorder(
