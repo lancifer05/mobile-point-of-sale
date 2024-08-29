@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
         child: Column(
           children: <Widget>[
             Text("Hello SAH!!"),
-            Image(image: AssetImage("janedoe.jpg"))
+            // Image(image: AssetImage("janedoe.jpg"))
           ],
         ),
       ),
