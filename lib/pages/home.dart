@@ -13,8 +13,22 @@ class _HomeState extends State<Home> {
     return Scaffold(
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Text("Hello SAH!!"),
+            Container(
+              width: 350,
+              height: 150,
+              child: Card(
+                  child: Container(
+                    padding:EdgeInsets.all(50),
+                child: Column(
+                  children: <Widget>[
+                    Text("van ho ten"),
+                  ],
+                ),
+              )),
+            ),
+
             // Image(image: AssetImage("janedoe.jpg"))
           ],
         ),
