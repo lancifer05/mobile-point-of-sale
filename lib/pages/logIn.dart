@@ -24,8 +24,24 @@ class _LoginState extends State<Login> {
             padding: EdgeInsets.all(10),
             width: 400,
             child: TextFormField(
-              decoration: InputDecoration(
-                  border: const OutlineInputBorder(), labelText: "Password"),
+              decoration: const InputDecoration(
+                  border: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color(0xFF127681),
+                        width: 2.0), // Yellow border color and width
+                  ),
+                  focusedBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color(0xFF127681),
+                        width: 2.0), // Yellow border color when focused
+                  ),
+                  enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Color(0xFF127681),
+                        width: 2.0), // Yellow border color when enabled
+                  ),
+                  labelText: "Password",
+                  labelStyle: TextStyle(color:Color(0xFF127681))),
             ),
           ),
           ElevatedButton(
@@ -41,22 +57,38 @@ class _LoginState extends State<Login> {
   }
 }
 
-Container TextBox(String label, onChange) {
+Container TextBox(String label, ValueChanged<String> onChange) {
   return Container(
-      padding: EdgeInsets.all(10),
-      width: 400,
-      child: TextFormField(
-        decoration: InputDecoration(
-          border: const OutlineInputBorder(),
-          labelText: label,
+    padding: EdgeInsets.all(10),
+    width: 400,
+    child: TextFormField(
+      decoration: InputDecoration(
+        labelStyle: const TextStyle(color:Color(0xFF127681)),
+        border: const OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Color(0xFF127681),
+              width: 2.0), // Yellow border color and width
         ),
-        onChanged: onChange,
-      ));
+        focusedBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Color(0xFF127681),
+              width: 2.0), // Yellow border color when focused
+        ),
+        enabledBorder: const OutlineInputBorder(
+          borderSide: BorderSide(
+              color: Color(0xFF127681),
+              width: 2.0), // Yellow border color when enabled
+        ),
+        labelText: label,
+      ),
+      onChanged: onChange,
+    ),
+  );
 }
 
 final ButtonStyle raisedButtonStyle = ElevatedButton.styleFrom(
-  foregroundColor: const Color(0xFF0A1931), // Color for text
-  backgroundColor: const Color(0xFFFFC947), // Color for button background
+  foregroundColor: const Color(0xffF4F6FF), // Color for text
+  backgroundColor: const Color(0xFF127681), // Color for button background
   minimumSize: Size(150, 56),
   padding: EdgeInsets.symmetric(horizontal: 16),
   shape: const RoundedRectangleBorder(
