@@ -15,7 +15,7 @@ class _HomeState extends State<Home> {
 
     return Scaffold(
         body: Container(
-      color: Color(0xffF6F6F6),
+      color: const Color(0xffF6F6F6),
       child: Stack(
         children: [
           // Positioned card background
@@ -45,7 +45,6 @@ class _HomeState extends State<Home> {
                       children: <Widget>[
                         Expanded(
                           child: Container(
-                            color: const Color.fromARGB(13, 255, 193, 7),
                             child: Center(
                               child: Column(
                                 children: <Widget>[
