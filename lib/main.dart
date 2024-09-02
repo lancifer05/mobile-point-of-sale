@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:p3_app_dev/pages/home.dart';
 import 'package:p3_app_dev/pages/logIn.dart';
+import 'package:p3_app_dev/pages/sample.dart';
 
 void main() => runApp(const MyApp());
 
@@ -20,7 +21,14 @@ final GoRouter _router = GoRouter(
             return const Home();
           },
         ),
+        GoRoute(
+          path: 'sample',
+          builder: (BuildContext context, GoRouterState state) {
+            return const Sample();
+          },
+        ),
       ],
+      
     ),
   ],
 );

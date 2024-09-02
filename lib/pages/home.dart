@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'components/card.dart';
 
 class Home extends StatefulWidget {
@@ -12,7 +11,6 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
-    // Get the screen width to determine the Flex direction
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
@@ -36,16 +34,13 @@ class _HomeState extends State<Home> {
               // Content below the card background
               Column(
                 children: [
-                  // Responsive Flex layout
                   Expanded(
                     child: LayoutBuilder(
                       builder: (context, constraints) {
                         final isVerticalLayout = constraints.maxWidth < 600;
 
                         return Flex(
-                          direction: isVerticalLayout
-                              ? Axis.vertical
-                              : Axis.horizontal,
+                          direction: isVerticalLayout ? Axis.vertical : Axis.horizontal,
                           children: [
                             Container(
                               height: 120,
@@ -55,8 +50,8 @@ class _HomeState extends State<Home> {
                               child: Column(
                                 children: [
                                   Container(
-                                    padding: const EdgeInsets.all(10),
-                                    width: isVerticalLayout ? 290 : 400,
+                                    padding: EdgeInsets.all(10),
+                                    width: isVerticalLayout ? 350 : 400,
                                     height: 70,
                                     child: TextFormField(
                                       decoration: const InputDecoration(
@@ -75,40 +70,33 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                  SizedBox(height: screenWidth < 600 ? 0 : 35),
-
-                                  // Scrollable content
+                                  // Conditional spacing
+                                  if (!isVerticalLayout) 
+                                  const SizedBox(height: 35),
                                   Expanded(
-                                    child: Padding(
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: screenWidth < 600
-                                              ? 25
-                                              : 0), // Adjust the value as needed
-                                      child: GridView.builder(
-                                        gridDelegate:
-                                            SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount:
-                                              screenWidth > 600 ? 6 : 2,
-                                          crossAxisSpacing: 10.0,
-                                          mainAxisSpacing: 15.0,
-                                        ),
-                                        itemCount: 20,
-                                        itemBuilder: (context, index) {
-                                          return Container(
-                                            child: const Padding(
-                                              padding:
-                                                  EdgeInsets.symmetric(
-                                                      horizontal: 10),
+                                    child: Container(
+                                      padding: EdgeInsetsDirectional.symmetric(
+                                        horizontal: screenWidth < 600 ? 0 : 12),
+                                      alignment: Alignment.center,
+                                      width: screenWidth,
+                                      child: SingleChildScrollView(
+                                        child: Wrap(
+                                          spacing: 10.0,
+                                          runSpacing: 15.0,
+                                          children: List.generate(100, (index) {
+                                            return Container(
+                                              padding: EdgeInsets.all(4),
                                               child: Cards(
-                                                  height: 11120, width: 11120),
-                                            ),
-                                          );
-                                        },
+                                                height: screenWidth < 600 ? 220 : 250,
+                                                width: screenWidth < 600 ? 170 : 200,
+                                                imagePath: 'assets/crogi.jpg',
+                                              ),
+                                            );
+                                          }),
+                                        ),
                                       ),
                                     ),
-                                  )
-
-                                  // Scrollable content end
+                                  ),
                                 ],
                               ),
                             ),
@@ -122,6 +110,13 @@ class _HomeState extends State<Home> {
             ],
           ),
         ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          // Define the action when the button is pressed
+        },
+        child: Icon(Icons.add),
+        backgroundColor: Color(0xFF3F52E3),
       ),
     );
   }
