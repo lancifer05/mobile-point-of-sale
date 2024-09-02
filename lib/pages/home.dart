@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:p3_app_dev/pages/components/card.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -14,7 +15,8 @@ class _HomeState extends State<Home> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-        body: Container(
+  body: SafeArea(
+    child: Container(
       color: const Color(0xffF6F6F6),
       child: Stack(
         children: [
@@ -33,61 +35,75 @@ class _HomeState extends State<Home> {
           // Content below the card background
           Column(
             children: [
-              // Responsive Flex layout
               Expanded(
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     final screenWidth = constraints.maxWidth;
-
-                    return Flex(
-                      direction:
-                          screenWidth < 600 ? Axis.vertical : Axis.horizontal,
-                      children: <Widget>[
-                        Expanded(
-                          child: Container(
-                            child: Center(
-                              child: Column(
-                                children: <Widget>[
-                                  Container(
-
-                                    padding: EdgeInsets.all(10),
-                                    width: (screenWidth < 600 ? 250 : 400),
-                                    height: 60,
-                                    child: Center(
-                                      child: TextFormField(
+                    return SingleChildScrollView(
+                      child: Flex(
+                        direction:
+                            screenWidth < 600 ? Axis.vertical : Axis.horizontal,
+                        children: <Widget>[
+                          Container(
+                            height: 120,
+                            child: const Row(children: <Widget>[]),
+                          ),
+                          Expanded(
+                            child: Column(
+                              children: <Widget>[
+                                Container(
+                                  padding: EdgeInsets.all(10),
+                                  width: (screenWidth < 600 ? 290 : 400),
+                                  height: 70,
+                                  child: Center(
+                                    child: TextFormField(
                                       decoration: const InputDecoration(
-                                          border: const OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xffF6F6F6),
-                                                width:
-                                                    2.0), // Yellow border color and width
+                                        fillColor: Colors.white,
+                                        filled: true,
+                                        border: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0xffF6F6F6),
+                                            width: 2.0,
                                           ),
-                                          focusedBorder:
-                                              const OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xffF6F6F6),
-                                                width:
-                                                    2.0), // Yellow border color when focused
+                                        ),
+                                        focusedBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0xffF6F6F6),
+                                            width: 2.0,
                                           ),
-                                          enabledBorder:
-                                              const OutlineInputBorder(
-                                            borderSide: BorderSide(
-                                                color: Color(0xffF6F6F6),
-                                                width:
-                                                    2.0), // Yellow border color when enabled
+                                        ),
+                                        enabledBorder: OutlineInputBorder(
+                                          borderSide: BorderSide(
+                                            color: Color(0xffF6F6F6),
+                                            width: 2.0,
                                           ),
-                                          hintText: "Search",
-                                          hintStyle: TextStyle(
-                                              color:Color(0xffF6F6F6))),
+                                        ),
+                                        hintText: "Search",
+                                        hintStyle: TextStyle(
+                                          color: Color.fromARGB(255, 7, 7, 7),
+                                        ),
+                                      ),
                                     ),
-                                    )
-                                  )
-                                ],
-                              ),
+                                  ),
+                                ),
+                                const Column(
+                                  children: <Widget>[
+                                    Cards(height: 200, width: 300),
+                                    Cards(height: 200, width: 300),
+                                    Cards(height: 200, width: 300),
+                                    Cards(height: 200, width: 300),
+                                    Cards(height: 200, width: 300),
+                                    Cards(height: 200, width: 300),
+                                    Cards(height: 200, width: 300),
+                                    Cards(height: 200, width: 300),
+                                    Cards(height: 200, width: 300),
+                                  ],
+                                ),
+                              ],
                             ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     );
                   },
                 ),
@@ -96,7 +112,10 @@ class _HomeState extends State<Home> {
           ),
         ],
       ),
-    ));
+    ),
+  ),
+);
+
   }
 }
 
