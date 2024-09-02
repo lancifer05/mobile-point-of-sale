@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:p3_app_dev/pages/components/card.dart';
+
+import 'components/card.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -15,64 +16,53 @@ class _HomeState extends State<Home> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
-  body: SafeArea(
-    child: Container(
-      color: const Color(0xffF6F6F6),
-      child: Stack(
-        children: [
-          // Positioned card background
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: CardBackground(
-              child: Container(
-                height: (screenWidth < 600 ? 150 : 100),
-                color: const Color(0xFF3F52E3),
-              ),
-            ),
-          ),
-          // Content below the card background
-          Column(
+      body: SafeArea(
+        child: Container(
+          color: const Color(0xffF6F6F6),
+          child: Stack(
             children: [
-              Expanded(
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final screenWidth = constraints.maxWidth;
-                    return SingleChildScrollView(
-                      child: Flex(
-                        direction:
-                            screenWidth < 600 ? Axis.vertical : Axis.horizontal,
-                        children: <Widget>[
-                          Container(
-                            height: 120,
-                            child: const Row(children: <Widget>[]),
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: <Widget>[
-                                Container(
-                                  padding: EdgeInsets.all(10),
-                                  width: (screenWidth < 600 ? 290 : 400),
-                                  height: 70,
-                                  child: Center(
+              // Positioned card background
+              Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: CardBackground(
+                  child: Container(
+                    height: screenWidth < 600 ? 150 : 100,
+                    color: const Color(0xFF3F52E3),
+                  ),
+                ),
+              ),
+              // Content below the card background
+              Column(
+                children: [
+                  // Responsive Flex layout
+                  Expanded(
+                    child: LayoutBuilder(
+                      builder: (context, constraints) {
+                        final isVerticalLayout = constraints.maxWidth < 600;
+
+                        return Flex(
+                          direction: isVerticalLayout
+                              ? Axis.vertical
+                              : Axis.horizontal,
+                          children: [
+                            Container(
+                              height: 120,
+                              child: const Row(),
+                            ),
+                            Expanded(
+                              child: Column(
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(10),
+                                    width: isVerticalLayout ? 290 : 400,
+                                    height: 70,
                                     child: TextFormField(
                                       decoration: const InputDecoration(
                                         fillColor: Colors.white,
                                         filled: true,
                                         border: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xffF6F6F6),
-                                            width: 2.0,
-                                          ),
-                                        ),
-                                        focusedBorder: OutlineInputBorder(
-                                          borderSide: BorderSide(
-                                            color: Color(0xffF6F6F6),
-                                            width: 2.0,
-                                          ),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
                                           borderSide: BorderSide(
                                             color: Color(0xffF6F6F6),
                                             width: 2.0,
@@ -85,37 +75,55 @@ class _HomeState extends State<Home> {
                                       ),
                                     ),
                                   ),
-                                ),
-                                const Column(
-                                  children: <Widget>[
-                                    Cards(height: 200, width: 300),
-                                    Cards(height: 200, width: 300),
-                                    Cards(height: 200, width: 300),
-                                    Cards(height: 200, width: 300),
-                                    Cards(height: 200, width: 300),
-                                    Cards(height: 200, width: 300),
-                                    Cards(height: 200, width: 300),
-                                    Cards(height: 200, width: 300),
-                                    Cards(height: 200, width: 300),
-                                  ],
-                                ),
-                              ],
+                                  SizedBox(height: screenWidth < 600 ? 0 : 35),
+
+                                  // Scrollable content
+                                  Expanded(
+                                    child: Padding(
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: screenWidth < 600
+                                              ? 25
+                                              : 0), // Adjust the value as needed
+                                      child: GridView.builder(
+                                        gridDelegate:
+                                            SliverGridDelegateWithFixedCrossAxisCount(
+                                          crossAxisCount:
+                                              screenWidth > 600 ? 6 : 2,
+                                          crossAxisSpacing: 10.0,
+                                          mainAxisSpacing: 15.0,
+                                        ),
+                                        itemCount: 20,
+                                        itemBuilder: (context, index) {
+                                          return Container(
+                                            child: const Padding(
+                                              padding:
+                                                  EdgeInsets.symmetric(
+                                                      horizontal: 10),
+                                              child: Cards(
+                                                  height: 11120, width: 11120),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                    ),
+                                  )
+
+                                  // Scrollable content end
+                                ],
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                ],
               ),
             ],
           ),
-        ],
+        ),
       ),
-    ),
-  ),
-);
-
+    );
   }
 }
 
