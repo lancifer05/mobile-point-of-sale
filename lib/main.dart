@@ -44,5 +44,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routerConfig: _router,
     );
+
+    
   }
 }
