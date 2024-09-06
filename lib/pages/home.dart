@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:p3_app_dev/pages/components/card.dart'; // Ensure this path is correct
+import 'dart:ui';
+
+import 'components/card.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -11,7 +13,8 @@ class Home extends StatefulWidget {
 
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
+  OverlayEntry? _overlayEntry;
+//Drawer function :)
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
   }
@@ -19,12 +22,71 @@ class _HomeState extends State<Home> {
   void _closeDrawer() {
     Navigator.of(context).pop();
   }
+//Drawer  function :)
 
+//overlay pressed function :)
   void _onCartButtonPressed() {
-    // Implement your cart button action here
-    // For example, navigate to a cart page
-    GoRouter.of(context).go('/cart');
+    if (_overlayEntry == null) {
+      _overlayEntry = _createOverlayEntry();
+      Overlay.of(context)?.insert(_overlayEntry!);
+    } else {
+      _removeOverlay();
+    }
   }
+
+  OverlayEntry _createOverlayEntry() {
+    double screenWidth = MediaQuery.of(context).size.width;
+    double screenHeight = MediaQuery.of(context).size.height;
+
+    return OverlayEntry(
+      builder: (context) => GestureDetector(
+        onTap: _removeOverlay,
+        child: Stack(
+          children: [
+            Positioned.fill(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 0.7, sigmaY: 0.7),
+                child: Container(
+                  color: Colors.black.withOpacity(0.5),
+                ),
+              ),
+            ),
+            Center(
+              child: GestureDetector(
+                onTap: () {
+                  // Prevent tap events from propagating to the GestureDetector that closes the overlay
+                },
+                child: Material(
+                  color: Colors.transparent,
+                  child: Container(
+                    width: screenWidth * 0.8,
+                    height: screenHeight * 0.3,
+                    decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child:  const Center(
+                      child: Text(
+                        "Hello Boss!!!",
+                        style: TextStyle(fontSize: 24, color: Colors.black),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  void _removeOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+//overlay pressed function :)
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,9 +97,10 @@ class _HomeState extends State<Home> {
       key: _scaffoldKey,
       appBar: isWideScreen
           ? null
+          //drawer below 600
           : AppBar(
               backgroundColor: const Color(0xFF3F52E3),
-              title: const Text('Flutter Drawer Example'),
+              title: const Text('Hello Prilan'),
               leading: IconButton(
                 icon: const Icon(Icons.menu),
                 onPressed: _openDrawer,
@@ -110,6 +173,7 @@ class _HomeState extends State<Home> {
                                       height: 50,
                                       child: const Row(),
                                     ),
+                                    //drawer greaterthan 600
                                   if (isWideScreen)
                                     Container(
                                       width: 240,
@@ -119,13 +183,19 @@ class _HomeState extends State<Home> {
                                           const SizedBox(
                                             height: 120,
                                           ),
-                                          _buildDrawerItem(Icons.home, 'Home', '/sample'),
-                                          _buildDrawerItem(Icons.settings, 'Settings', '/settings'),
-                                          _buildDrawerItem(Icons.contacts, 'Contacts', '/contacts'),
-                                          _buildDrawerItem(Icons.logout, 'Logout', '/logout'),
+                                          _buildDrawerItem(
+                                              Icons.home, 'Home', '/sample'),
+                                          _buildDrawerItem(Icons.settings,
+                                              'Settings', '/settings'),
+                                          _buildDrawerItem(Icons.contacts,
+                                              'Contacts', '/contacts'),
+                                          _buildDrawerItem(Icons.logout,
+                                              'Logout', '/logout'),
                                         ],
                                       ),
                                     ),
+
+                                    //search bar
                                   Expanded(
                                     child: Column(
                                       children: [
@@ -151,8 +221,11 @@ class _HomeState extends State<Home> {
                                             ),
                                           ),
                                         ),
+                                      //search bar
+
+                                      //my list scroll
                                         if (!isVerticalLayout)
-                                          const SizedBox(height:80),
+                                          const SizedBox(height: 80),
                                         Expanded(
                                           child: Container(
                                             padding: EdgeInsets.symmetric(
@@ -184,6 +257,7 @@ class _HomeState extends State<Home> {
                                             ),
                                           ),
                                         ),
+                                        //end of scroll list
                                       ],
                                     ),
                                   ),
@@ -204,11 +278,15 @@ class _HomeState extends State<Home> {
       floatingActionButton: FloatingActionButton(
         onPressed: _onCartButtonPressed,
         backgroundColor: const Color(0xFF3F52E3),
-        child: const Icon(Icons.shopping_cart,
-        color: Color(0xffF6F6F6),),
+        child: const Icon(
+          Icons.shopping_cart,
+          color: Color(0xffF6F6F6),
+        ),
       ),
     );
   }
+    //My Drawer Content
+    //TODO need change sample Icons
 
   Widget _buildDrawerItem(IconData icon, String text, String route) {
     return ListTile(
@@ -222,11 +300,13 @@ class _HomeState extends State<Home> {
   }
 }
 
+// my Card background
 class CardBackground extends StatelessWidget {
   final Widget child;
   final double borderRadius;
 
-  CardBackground({required this.child, this.borderRadius = 30.0});
+  const CardBackground(
+      {super.key, required this.child, this.borderRadius = 30.0});
 
   @override
   Widget build(BuildContext context) {
@@ -244,7 +324,6 @@ class CardBackground extends StatelessWidget {
           bottomRight: Radius.circular(screenWidth < 600 ? borderRadius : 0),
         ),
         child: Container(
-          color: const Color(0xFFFFC436),
           child: child,
         ),
       ),
