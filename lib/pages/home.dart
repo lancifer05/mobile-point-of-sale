@@ -14,7 +14,8 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   OverlayEntry? _overlayEntry;
-//Drawer function :)
+
+  // Drawer functions
   void _openDrawer() {
     _scaffoldKey.currentState?.openDrawer();
   }
@@ -22,9 +23,8 @@ class _HomeState extends State<Home> {
   void _closeDrawer() {
     Navigator.of(context).pop();
   }
-//Drawer  function :)
 
-//overlay pressed function :)
+  // Overlay functions
   void _onCartButtonPressed() {
     if (_overlayEntry == null) {
       _overlayEntry = _createOverlayEntry();
@@ -65,7 +65,7 @@ class _HomeState extends State<Home> {
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child:  const Center(
+                    child: const Center(
                       child: Text(
                         "Hello Boss!!!",
                         style: TextStyle(fontSize: 24, color: Colors.black),
@@ -85,8 +85,6 @@ class _HomeState extends State<Home> {
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
-//overlay pressed function :)
-
 
   @override
   Widget build(BuildContext context) {
@@ -97,7 +95,6 @@ class _HomeState extends State<Home> {
       key: _scaffoldKey,
       appBar: isWideScreen
           ? null
-          //drawer below 600
           : AppBar(
               backgroundColor: const Color(0xFF3F52E3),
               title: const Text('Hello Prilan'),
@@ -139,6 +136,20 @@ class _HomeState extends State<Home> {
       body: SafeArea(
         child: Row(
           children: [
+            if (isWideScreen)
+              Container(
+                width: 240,
+                color: const Color(0xFF3F52E3),
+                child: Column(
+                  children: [
+                    const SizedBox(height: 120),
+                    _buildDrawerItem(Icons.home, 'Home', '/home'),
+                    _buildDrawerItem(Icons.settings, 'Settings', '/settings'),
+                    _buildDrawerItem(Icons.contacts, 'Contacts', '/contacts'),
+                    _buildDrawerItem(Icons.logout, 'Logout', '/logout'),
+                  ],
+                ),
+              ),
             Expanded(
               child: Container(
                 color: const Color(0xffF6F6F6),
@@ -157,113 +168,46 @@ class _HomeState extends State<Home> {
                     ),
                     Column(
                       children: [
+                        Container(
+                          padding: const EdgeInsets.all(5),
+                          width: screenWidth < 600 ? 350 : 400,
+                          height: 70,
+                          child: TextFormField(
+                            decoration: const InputDecoration(
+                              fillColor: Colors.white,
+                              filled: true,
+                              border: OutlineInputBorder(
+                                borderSide: BorderSide(
+                                  color: Color(0xffF6F6F6),
+                                  width: 2.0,
+                                ),
+                              ),
+                              hintText: "Search",
+                              hintStyle: TextStyle(
+                                color: Color.fromARGB(255, 7, 7, 7),
+                              ),
+                            ),
+                          ),
+                        ),
+                      Container(color: Colors.transparent,height: 50, ),
                         Expanded(
-                          child: LayoutBuilder(
-                            builder: (context, constraints) {
-                              final isVerticalLayout =
-                                  constraints.maxWidth < 600;
-
-                              return Flex(
-                                direction: isVerticalLayout
-                                    ? Axis.vertical
-                                    : Axis.horizontal,
-                                children: [
-                                  if (isVerticalLayout)
-                                    Container(
-                                      height: 50,
-                                      child: const Row(),
-                                    ),
-                                    //drawer greaterthan 600
-                                  if (isWideScreen)
-                                    Container(
-                                      width: 240,
-                                      color: const Color(0xFF3F52E3),
-                                      child: Column(
-                                        children: [
-                                          const SizedBox(
-                                            height: 120,
-                                          ),
-                                          _buildDrawerItem(
-                                              Icons.home, 'Home', '/sample'),
-                                          _buildDrawerItem(Icons.settings,
-                                              'Settings', '/settings'),
-                                          _buildDrawerItem(Icons.contacts,
-                                              'Contacts', '/contacts'),
-                                          _buildDrawerItem(Icons.logout,
-                                              'Logout', '/logout'),
-                                        ],
-                                      ),
-                                    ),
-
-                                    //search bar
-                                  Expanded(
-                                    child: Column(
-                                      children: [
-                                        Container(
-                                          padding: const EdgeInsets.all(10),
-                                          width: isVerticalLayout ? 350 : 400,
-                                          height: 70,
-                                          child: TextFormField(
-                                            decoration: const InputDecoration(
-                                              fillColor: Colors.white,
-                                              filled: true,
-                                              border: OutlineInputBorder(
-                                                borderSide: BorderSide(
-                                                  color: Color(0xffF6F6F6),
-                                                  width: 2.0,
-                                                ),
-                                              ),
-                                              hintText: "Search",
-                                              hintStyle: TextStyle(
-                                                color: Color.fromARGB(
-                                                    255, 7, 7, 7),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                      //search bar
-
-                                      //my list scroll
-                                        if (!isVerticalLayout)
-                                          const SizedBox(height: 80),
-                                        Expanded(
-                                          child: Container(
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal:
-                                                    screenWidth < 600 ? 0 : 12),
-                                            alignment: Alignment.center,
-                                            child: SingleChildScrollView(
-                                              child: Wrap(
-                                                spacing: 10.0,
-                                                runSpacing: 15.0,
-                                                children:
-                                                    List.generate(100, (index) {
-                                                  return Container(
-                                                    padding:
-                                                        const EdgeInsets.all(4),
-                                                    child: Cards(
-                                                      height: screenWidth < 600
-                                                          ? 220
-                                                          : 250,
-                                                      width: screenWidth < 600
-                                                          ? 170
-                                                          : 200,
-                                                      imagePath:
-                                                          'assets/crogi.jpg',
-                                                    ),
-                                                  );
-                                                }),
-                                              ),
-                                            ),
-                                          ),
-                                        ),
-                                        //end of scroll list
-                                      ],
-                                    ),
+                          child: SingleChildScrollView(
+                            padding: EdgeInsets.symmetric(
+                                horizontal: screenWidth < 600 ? 5 : 12),
+                            child: Wrap(
+                              spacing: 10.0,
+                              runSpacing: 10.0,
+                              children: List.generate(100, (index) {
+                                return Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                                  child: Cards(
+                                    height: screenWidth < 600 ? 260 : 300,
+                                    width: screenWidth < 600 ? 170 : 200,
+                                    imagePath: 'assets/crogi.jpg',
                                   ),
-                                ],
-                              );
-                            },
+                                );
+                              }),
+                            ),
                           ),
                         ),
                       ],
@@ -285,8 +229,6 @@ class _HomeState extends State<Home> {
       ),
     );
   }
-    //My Drawer Content
-    //TODO need change sample Icons
 
   Widget _buildDrawerItem(IconData icon, String text, String route) {
     return ListTile(
@@ -294,13 +236,13 @@ class _HomeState extends State<Home> {
       title: Text(text),
       onTap: () {
         GoRouter.of(context).go(route);
-        _closeDrawer(); // Close drawer after navigation
+        _closeDrawer();
       },
     );
   }
 }
 
-// my Card background
+// My Card Background
 class CardBackground extends StatelessWidget {
   final Widget child;
   final double borderRadius;
