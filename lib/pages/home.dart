@@ -11,9 +11,28 @@ class Home extends StatefulWidget {
   State<Home> createState() => _HomeState();
 }
 
+class Item {
+  String image;
+  int counter;
+  String name;
+  Item(this.name, this.image, this.counter);
+}
+
 class _HomeState extends State<Home> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   OverlayEntry? _overlayEntry;
+
+  List<Item> list = [];
+
+  @override
+  void initState() {
+    super.initState();
+    list.addAll([
+      Item( "Corgi", 'assets/crogi.jpg',0),
+      Item("Nig",'assets/crogi.jpg', 0),
+      Item( "ger",'assets/crogi.jpg', 0),
+    ]);
+  }
 
   // Drawer functions
   void _openDrawer() {
@@ -189,7 +208,10 @@ class _HomeState extends State<Home> {
                             ),
                           ),
                         ),
-                      Container(color: Colors.transparent,height: 50, ),
+                        Container(
+                          color: Colors.transparent,
+                          height: 50,
+                        ),
                         Expanded(
                           child: SingleChildScrollView(
                             padding: EdgeInsets.symmetric(
@@ -197,16 +219,22 @@ class _HomeState extends State<Home> {
                             child: Wrap(
                               spacing: 10.0,
                               runSpacing: 10.0,
-                              children: List.generate(100, (index) {
+                              children: list.map((item) {
                                 return Container(
-                                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 15),
                                   child: Cards(
                                     height: screenWidth < 600 ? 260 : 300,
                                     width: screenWidth < 600 ? 170 : 200,
-                                    imagePath: 'assets/crogi.jpg',
+                                    imagePath: item.image,
+                                    itemName: item.name,
+                                    onValueChange: (value) {
+                                      print(
+                                          'Counter value changed for ${item.name}: $value');
+                                    },
                                   ),
                                 );
-                              }),
+                              }).toList(),
                             ),
                           ),
                         ),

@@ -3,15 +3,19 @@ import 'package:flutter/material.dart';
 class Cards extends StatefulWidget {
   final double height;
   final double width;
-  final String imagePath; // Parameter for the image asset path
-  final bool imageAsBackground; // Attribute to set image as background
+  final String imagePath;
+  final String itemName;
+  final bool imageAsBackground;
+  final ValueChanged<int> onValueChange; // New parameter for the callback
 
   const Cards({
     super.key,
     required this.height,
     required this.width,
-    required this.imagePath, // Add imagePath to constructor
-    this.imageAsBackground = false, // Default is false
+    required this.imagePath,
+    required this.itemName,
+    this.imageAsBackground = false,
+    required this.onValueChange, // Include the callback in the constructor
   });
 
   @override
@@ -31,6 +35,7 @@ class _CardsState extends State<Cards> {
       if (newValue != null) {
         setState(() {
           _counter = newValue;
+          widget.onValueChange(_counter); // Notify the callback on text change
         });
       }
     });
@@ -46,6 +51,7 @@ class _CardsState extends State<Cards> {
     setState(() {
       _counter++;
       _counterController.text = '$_counter';
+      widget.onValueChange(_counter); // Notify the callback on increment
     });
   }
 
@@ -54,6 +60,7 @@ class _CardsState extends State<Cards> {
       setState(() {
         _counter--;
         _counterController.text = '$_counter';
+        widget.onValueChange(_counter); // Notify the callback on decrement
       });
     }
   }
@@ -61,9 +68,9 @@ class _CardsState extends State<Cards> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent, // Make sure the Material widget is transparent
+      color: Colors.transparent,
       child: Stack(
-        clipBehavior: Clip.none, // Allow the stack to overflow
+        clipBehavior: Clip.none,
         children: [
           Container(
             height: widget.height,
@@ -83,40 +90,38 @@ class _CardsState extends State<Cards> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const SizedBox(height: 10),
-                if (!widget.imageAsBackground) // Conditional logic to show image
+                if (!widget.imageAsBackground)
                   ClipRRect(
                     borderRadius: BorderRadius.circular(25.0),
                     child: Image.asset(
                       widget.imagePath,
-                      height: widget.height * 0.6, // Adjust the height of the image
-                      width: widget.width * 0.9, // Adjust the width of the image
-                      fit: BoxFit.cover, // Cover the specified area with the image
+                      height: widget.height * 0.6,
+                      width: widget.width * 0.9,
+                      fit: BoxFit.cover,
                     ),
                   ),
-                const Text(
-                  "Cute Corgi",
-                  style: TextStyle(
+                Text(
+                  widget.itemName,
+                  style: const TextStyle(
                     color: Colors.black,
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                // Counter and buttons section
                 Expanded(
                   child: Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 10.0),
-                    child: SingleChildScrollView(  // Make the content scrollable to avoid overflow
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 8.0, vertical: 10.0),
+                    child: SingleChildScrollView(
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          // Decrement button
                           IconButton(
                             onPressed: _decrementCounter,
                             icon: const Icon(Icons.remove),
                           ),
-                          // Counter display
                           SizedBox(
-                            width: 60, // Adjust width as needed
+                            width: 60,
                             child: TextField(
                               controller: _counterController,
                               keyboardType: TextInputType.number,
@@ -127,7 +132,6 @@ class _CardsState extends State<Cards> {
                               style: const TextStyle(fontSize: 20),
                             ),
                           ),
-                          // Increment button
                           IconButton(
                             onPressed: _incrementCounter,
                             icon: const Icon(Icons.add),
@@ -140,11 +144,10 @@ class _CardsState extends State<Cards> {
               ],
             ),
           ),
-          // Counter display in the top-right corner (only if counter > 0)
           if (_counter > 0)
             Positioned(
-              top: -8, // Adjust the vertical position to prevent cropping
-              right: -3, // Adjust the horizontal position to prevent cropping
+              top: -8,
+              right: -3,
               child: Container(
                 padding: const EdgeInsets.all(4.0),
                 decoration: BoxDecoration(
